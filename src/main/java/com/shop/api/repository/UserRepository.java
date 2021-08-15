@@ -1,7 +1,6 @@
 package com.shop.api.repository;
 
 import com.shop.api.model.User;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +13,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @Override
-    Optional<User> findById(Long aLong);
+    Optional<User> findById(Long id);
 
     @Override
     <S extends User> S save(S s);
+
+    @Override
+    void deleteById(Long id);
 }
