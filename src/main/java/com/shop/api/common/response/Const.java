@@ -3,7 +3,7 @@ package com.shop.api.common.response;
 import java.util.HashMap;
 
 public interface Const {
-    Integer minLen = 50;
+    Integer maxLen = 50;
     String RESPONSE_FORMAT = "application/json";
 
     int STATUS_CODE_SUCCEED = 0;

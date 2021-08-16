@@ -36,4 +36,8 @@ public class ResponseRow<T extends Object> extends Response {
         super(statusCode, statusMsg);
         this.entity = entity;
     }
+
+    public ResponseRow(Response response) {
+        super(response);
+    }
 }

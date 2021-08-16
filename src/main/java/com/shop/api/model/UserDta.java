@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class UserDta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
+    private Long id;
 
     @Column(length = 50, nullable = false)
     private String name;

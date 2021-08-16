@@ -1,5 +1,6 @@
 package com.shop.api.controller;
 
+import com.shop.api.common.Check;
 import com.shop.api.common.response.Const;
 import com.shop.api.common.response.Response;
 import com.shop.api.common.response.ResponseRow;
@@ -32,7 +33,25 @@ public class UserController {
 
     @PostMapping(path = "write", produces = Const.RESPONSE_FORMAT)
     public ResponseRow<UserDta> save(@RequestBody UserDta userDta) {
-        ResponseRow<UserDta> responseRow = userService.save(userDta);
+        ResponseRow<UserDta> responseRow;
+        if (userDta == null) return new ResponseRow<>(Const.STATUS_CODE_FAIL_PARAM_NULL, "userDta");
+
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "name");
+        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
+
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "userName");
+        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
+
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "password");
+        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
+
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "telephone");
+        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
+
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "email");
+        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
+
+        responseRow = userService.save(userDta);
         return responseRow;
     }
 

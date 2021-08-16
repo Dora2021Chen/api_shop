@@ -21,4 +21,9 @@ public class Response {
             this.statusMsg = statusMsgBuilder.toString();
         }
     }
+
+    public Response(Response response) {
+        this.statusCode = response.statusCode;
+        this.statusMsg = response.statusMsg;
+    }
 }
