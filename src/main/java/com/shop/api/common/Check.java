@@ -23,7 +23,7 @@ public class Check {
                 return new ResponseRow(Const.STATUS_CODE_FAIL_PARAM_EMPTY);
             }
 
-            if (strTrim.length() > Const.maxLen) {
+            if (strTrim.length() > maxLen) {
                 return new ResponseRow(Const.STATUS_CODE_FAIL_PARAM_TOO_LONG);
             }
 
