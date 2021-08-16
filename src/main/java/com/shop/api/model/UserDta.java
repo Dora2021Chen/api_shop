@@ -13,13 +13,13 @@ public class UserDta {
     private String name;
 
     @Column(length = 50, nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(length = 50, nullable = false)
     private String password;
 
     @Column(length = 50, nullable = false, unique = true)
-    private String telephone;
+    private String phone;
 
     @Column(length = 50, nullable = false, unique = true)
     private String email;
@@ -32,16 +32,16 @@ public class UserDta {
         return name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
     public String getEmail() {
@@ -56,16 +56,16 @@ public class UserDta {
         this.name = name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setEmail(String email) {

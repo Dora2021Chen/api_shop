@@ -32,8 +32,33 @@ public class UserService {
     }
 
     public ResponseRow<UserDta> save(UserDta userDta) {
+        ResponseRow<UserDta> responseRow;
+        List<UserDta> userDtaList = userRepository.findByUsername(userDta.getUsername());
+        if (!userDtaList.isEmpty()) {
+            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+                responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_NAME_EXISTS);
+                return responseRow;
+            }
+        }
+
+        userDtaList = userRepository.findByPhone(userDta.getPhone());
+        if (!userDtaList.isEmpty()) {
+            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+                responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_PHONE_EXISTS);
+                return responseRow;
+            }
+        }
+
+        userDtaList = userRepository.findByEmail(userDta.getEmail());
+        if (!userDtaList.isEmpty()) {
+            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+                responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_EMAIL_EXISTS);
+                return responseRow;
+            }
+        }
+
         UserDta userDta1 = userRepository.save(userDta);
-        ResponseRow<UserDta> responseRow = new ResponseRow<>(userDta1);
+        responseRow = new ResponseRow<>(userDta1);
         return responseRow;
     }
 

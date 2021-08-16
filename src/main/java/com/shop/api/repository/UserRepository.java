@@ -15,7 +15,11 @@ public interface UserRepository extends JpaRepository<UserDta, Long> {
     @Override
     Optional<UserDta> findById(Long id);
 
-    List<UserDta> findByUserName(String userName);
+    List<UserDta> findByUsername(String username);
+
+    List<UserDta> findByPhone(String phone);
+
+    List<UserDta> findByEmail(String email);
 
     @Override
     <S extends UserDta> S save(S s);

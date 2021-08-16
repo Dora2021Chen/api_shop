@@ -41,9 +41,9 @@ public class UserController {
 
         List<String> fieldNameList = new ArrayList<>() {{
             add("name");
-            add("userName");
+            add("username");
             add("password");
-            add("telephone");
+            add("phone");
             add("email");
         }};
         responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, fieldNameList);
