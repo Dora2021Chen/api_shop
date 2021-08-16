@@ -9,6 +9,9 @@ import com.shop.api.model.UserDta;
 import com.shop.api.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/shop/user")
 @CrossOrigin
@@ -36,19 +39,14 @@ public class UserController {
         ResponseRow<UserDta> responseRow;
         if (userDta == null) return new ResponseRow<>(Const.STATUS_CODE_FAIL_PARAM_NULL, "userDta");
 
-        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "name");
-        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
-
-        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "userName");
-        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
-
-        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "password");
-        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
-
-        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "telephone");
-        if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
-
-        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, "email");
+        List<String> fieldNameList = new ArrayList<>() {{
+            add("name");
+            add("userName");
+            add("password");
+            add("telephone");
+            add("email");
+        }};
+        responseRow = Check.CheckStringNotNullable(userDta, Const.maxLen, fieldNameList);
         if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) return responseRow;
 
         responseRow = userService.save(userDta);

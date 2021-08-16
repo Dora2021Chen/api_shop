@@ -4,8 +4,23 @@ import com.shop.api.common.response.Const;
 import com.shop.api.common.response.ResponseRow;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class Check {
+
+    public static <T> ResponseRow<T> CheckStringNotNullable(T object, int maxLen, List<String> fieldNameList) {
+        ResponseRow<T> responseRow;
+        String fieldName;
+        for (int i = 0; i < fieldNameList.size(); i++) {
+            fieldName = fieldNameList.get(i);
+            responseRow = CheckStringNotNullable(object, maxLen, fieldName);
+            if (responseRow.statusCode != Const.STATUS_CODE_SUCCEED) {
+                return responseRow;
+            }
+        }
+
+        return new ResponseRow();
+    }
 
     public static <T> ResponseRow<T> CheckStringNotNullable(T object, int maxLen, String fieldName) {
         try {
