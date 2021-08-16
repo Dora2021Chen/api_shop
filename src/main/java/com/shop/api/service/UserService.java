@@ -1,6 +1,10 @@
 package com.shop.api.service;
 
-import com.shop.api.model.User;
+import com.shop.api.common.response.Const;
+import com.shop.api.common.response.Response;
+import com.shop.api.common.response.ResponseRow;
+import com.shop.api.common.response.ResponseRows;
+import com.shop.api.model.UserDta;
 import com.shop.api.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +19,34 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public ResponseRows<UserDta> findAll() {
+        List<UserDta> userDtaList = userRepository.findAll();
+        ResponseRows<UserDta> responseRows = new ResponseRows<>(userDtaList);
+        return responseRows;
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public ResponseRow<UserDta> findById(Long id) {
+        Optional<UserDta> userDta = userRepository.findById(id);
+        ResponseRow<UserDta> responseRow = new ResponseRow<>(userDta);
+        return responseRow;
     }
 
-    public <S extends User> S save(S s) {
-        return userRepository.save(s);
+    public ResponseRow<UserDta> save(UserDta userDta) {
+        UserDta userDta1 = userRepository.save(userDta);
+        ResponseRow<UserDta> responseRow = new ResponseRow<>(userDta1);
+        return responseRow;
     }
 
-    public void deleteById(Long id) {
+    public Response deleteById(Long id) {
+        Response response;
+        Optional<UserDta> userDta = userRepository.findById(id);
+        if (userDta.isEmpty()) {
+            response = new Response(Const.STATUS_CODE_FAIL_USER_NOT_EXISTS);
+            return response;
+        }
         userRepository.deleteById(id);
+
+        response = new Response();
+        return response;
     }
 }

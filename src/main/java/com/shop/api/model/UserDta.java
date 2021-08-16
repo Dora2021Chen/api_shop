@@ -1,12 +1,14 @@
 package com.shop.api.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
-public class User extends Model {
+public class UserDta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
+
     @Column(length = 50, nullable = false)
     private String name;
 

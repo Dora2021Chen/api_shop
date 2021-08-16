@@ -1,4 +1,4 @@
-package com.shop.api.utility;
+package com.shop.api.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.shop.api.utility;
+package com.shop.api.common;
 
 import com.google.gson.Gson;
 
