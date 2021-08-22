@@ -4,7 +4,7 @@ import com.shop.api.common.response.Const;
 import com.shop.api.common.response.Response;
 import com.shop.api.common.response.ResponseRow;
 import com.shop.api.common.response.ResponseRows;
-import com.shop.api.model.UserDta;
+import com.shop.api.model.UserData;
 import com.shop.api.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,54 +19,68 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public ResponseRows<UserDta> findAll() {
-        List<UserDta> userDtaList = userRepository.findAll();
-        ResponseRows<UserDta> responseRows = new ResponseRows<>(userDtaList);
+    public ResponseRows<UserData> findAll() {
+        List<UserData> userDataList = userRepository.findAll();
+        ResponseRows<UserData> responseRows = new ResponseRows<>(userDataList);
         return responseRows;
     }
 
-    public ResponseRow<UserDta> findById(Long id) {
-        Optional<UserDta> userDta = userRepository.findById(id);
-        ResponseRow<UserDta> responseRow = new ResponseRow<>(userDta);
+    public ResponseRow<UserData> login(String username, String password) {
+        List<UserData> userDataList = userRepository.findByUsername(username);
+        if (userDataList.isEmpty()) {
+            return new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_NAME_NOT_EXISTS);
+        }
+
+        if (!userDataList.get(0).getPassword().equals(password)) {
+            return new ResponseRow<>(Const.STATUS_CODE_FAIL_PASSWORD_WRONG);
+        }
+
+        ResponseRow<UserData> responseRow = new ResponseRow<>(userDataList.get(0));
         return responseRow;
     }
 
-    public ResponseRow<UserDta> save(UserDta userDta) {
-        ResponseRow<UserDta> responseRow;
-        List<UserDta> userDtaList = userRepository.findByUsername(userDta.getUsername());
-        if (!userDtaList.isEmpty()) {
-            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+    public ResponseRow<UserData> findById(Long id) {
+        Optional<UserData> userDta = userRepository.findById(id);
+        ResponseRow<UserData> responseRow = new ResponseRow<>(userDta);
+        return responseRow;
+    }
+
+    public ResponseRow<UserData> save(UserData userData) {
+        ResponseRow<UserData> responseRow;
+        List<UserData> userDataList = userRepository.findByUsername(userData.getUsername());
+        if (!userDataList.isEmpty()) {
+            if (userData.getId() == null || !userDataList.stream().findFirst().get().getId().equals(userData.getId())) {
                 responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_NAME_EXISTS);
                 return responseRow;
             }
         }
 
-        userDtaList = userRepository.findByPhone(userDta.getPhone());
-        if (!userDtaList.isEmpty()) {
-            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+        userDataList = userRepository.findByPhone(userData.getPhone());
+        if (!userDataList.isEmpty()) {
+            if (userData.getId() == null || !userDataList.stream().findFirst().get().getId().equals(userData.getId())) {
                 responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_PHONE_EXISTS);
                 return responseRow;
             }
         }
 
-        userDtaList = userRepository.findByEmail(userDta.getEmail());
-        if (!userDtaList.isEmpty()) {
-            if (userDta.getId() == null || !userDtaList.stream().findFirst().get().getId().equals(userDta.getId())) {
+        userDataList = userRepository.findByEmail(userData.getEmail());
+        if (!userDataList.isEmpty()) {
+            if (userData.getId() == null || !userDataList.stream().findFirst().get().getId().equals(userData.getId())) {
                 responseRow = new ResponseRow<>(Const.STATUS_CODE_FAIL_USER_EMAIL_EXISTS);
                 return responseRow;
             }
         }
 
-        UserDta userDta1 = userRepository.save(userDta);
-        responseRow = new ResponseRow<>(userDta1);
+        UserData userData1 = userRepository.save(userData);
+        responseRow = new ResponseRow<>(userData1);
         return responseRow;
     }
 
     public Response deleteById(Long id) {
         Response response;
-        Optional<UserDta> userDta = userRepository.findById(id);
+        Optional<UserData> userDta = userRepository.findById(id);
         if (userDta.isEmpty()) {
-            response = new Response(Const.STATUS_CODE_FAIL_USER_NOT_EXISTS);
+            response = new Response(Const.STATUS_CODE_FAIL_USER_ID_NOT_EXISTS);
             return response;
         }
         userRepository.deleteById(id);
